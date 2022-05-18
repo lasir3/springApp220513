@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.choong.spr.mapper.BoardMapper">
+  	<select id="selectBoard" resultType="com.choong.spr.domain.BoardDto">
+  		SELECT b.id 		id, 		
+  			   b.title 		title, 
+  			   b.inserted 	inserted,
+  			   COUNT(r.id)  numOfReply
+  			   <!-- 게시물 댓글 갯수 기능 추가 -->
+  		FROM Board b LEFT JOIN Reply r ON b.id = r.board_Id 
+  		GROUP BY b.id
+  		ORDER BY id DESC
+  	</select>
+  	
+  	<select id="selectSearchBoard" resultType="com.choong.spr.domain.BoardDto">
+		SELECT b.id 		id, 		
+  			   b.title 		title, 
+  			   b.inserted 	inserted,
+  			   COUNT(r.id)  numOfReply
+  			   <!-- 게시물 댓글 갯수 기능 추가 -->
+  		FROM Board b LEFT JOIN Reply r ON b.id = r.board_Id 
+		WHERE b.title LIKE #{search}
+		GROUP BY b.id
+  		ORDER BY id DESC
+  	</select>
+  	
+  	<select id="getBoard" resultType="com.choong.spr.domain.BoardDto">
+  		SELECT b.id 		id, 		
+  			   b.title 		title,
+  			   b.body       body,
+  			   b.inserted 	inserted,
+  			   COUNT(r.id)  numOfReply
+  			   <!-- 본문 댓글 갯수 기능 추가 -->
+  		FROM Board b LEFT JOIN Reply r ON b.id = r.board_Id 
+  		WHERE b.id = #{id}
+  	</select>
+  	
+  	<update id="updateBoard">
+  		UPDATE Board
+  		Set title = #{title}, 
+  			body = #{body} 
+  		WHERE id = #{id}
+  	</update>
+  	
+  	<delete id="deleteBoard">
+  		DELETE FROM Board
+  		WHERE id = #{id}
+  	</delete>
+  	
+  	<insert id="insertBoard" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+	  	INSERT INTO Board (title, body, inserted)
+	  	VALUES (#{title}, #{body}, #{inserted})
+	</insert>
+  </mapper>
