@@ -1,6 +1,5 @@
 package com.choong.spr.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,10 +42,8 @@ public class BoardService {
 	}
 
 	public BoardDto getBoard(int id) {
-		
 		// 조회수 증가
 		mapper.incrementView(id);
-		
 		return mapper.getBoard(id);
 	}
 
