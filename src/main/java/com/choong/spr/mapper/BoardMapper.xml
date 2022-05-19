@@ -71,4 +71,10 @@
 	  	INSERT INTO Board (title, body, views)
 	  	VALUES (#{title}, #{body}, #{views})
 	</insert>
+	
+	<update id="incrementView">
+		UPDATE Board
+		Set views = views + 1
+		WHERE id = #{id}
+	</update>
   </mapper>

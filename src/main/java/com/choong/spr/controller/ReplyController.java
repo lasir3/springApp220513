@@ -1,12 +1,14 @@
 package com.choong.spr.controller;
 
-import com.choong.spr.domain.ReplyDto;
-import com.choong.spr.service.ReplyService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.choong.spr.domain.ReplyDto;
+import com.choong.spr.service.ReplyService;
 
 @Controller
 @RequestMapping("boardApp")
@@ -29,12 +31,14 @@ public class ReplyController {
     }
     
     @PostMapping("reply/modify")
-    public String modifyReply(ReplyDto reply) {
-    	boolean success = service.modifyReply(reply);
+    public String modifyReply(ReplyDto reply, RedirectAttributes rttr) {
+    	boolean successReply = service.modifyReply(reply);
     	
-    	if (success) {
+    	if (successReply) {
+			rttr.addAttribute("successReply", true);
     		System.out.println("댓글 수정 성공!!");
     	} else {
+			rttr.addAttribute("successReply", true);
     		System.out.println("댓글 수정 실패...");
     	}
     	

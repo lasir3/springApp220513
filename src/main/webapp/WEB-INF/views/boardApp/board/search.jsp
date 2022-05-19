@@ -40,7 +40,7 @@
 							<th class="col-3" >제목</th>
 							<th class="col-1" ><i class="fa-solid fa-comments"></i></th>
 							<th class="col-1" ><i class="fa-solid fa-calendar"></i></th>
-							<!-- <th class="col-2" >조회수</th> -->
+							<th class="col-2" >조회수</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -64,7 +64,7 @@
 									</c:if>
 								</td>
 								<td style="text-align : center;">${board.prettyInserted }</td>
-								<%-- <td style="text-align : center;">${board.views }</td> --%>
+								<td style="text-align : center;">${board.views }</td>
 							</tr>
 						</c:forEach>
 					</tbody>

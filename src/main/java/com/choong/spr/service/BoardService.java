@@ -43,6 +43,10 @@ public class BoardService {
 	}
 
 	public BoardDto getBoard(int id) {
+		
+		// 조회수 증가
+		mapper.incrementView(id);
+		
 		return mapper.getBoard(id);
 	}
 

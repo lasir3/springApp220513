@@ -132,9 +132,17 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<%-- 댓글 목록 --%>
 	<div class="container mt-3">
+		<c:if test="${not empty param.successReply }">
+			<c:if test="${param.successReply }">
+				<div class="alert alert-primary">댓글이 수정되었습니다.</div>
+			</c:if>
+			<c:if test="${not param.successReply }">
+				<div class="alert alert-danger">댓글 수정 중 문제가 발생하였습니다.</div>
+			</c:if>
+		</c:if>
 		<div class="row">
 			<div class="col">
 				<h3>댓글 ${board.numOfReply } 개</h3>
@@ -157,6 +165,7 @@
 									</div>
 								</div>
 							</div>
+							
 							<!-- 댓글 수정 -->
 							<div id="replyEditFormContainer${reply.id }" style="display: none;">
 								<c:url value="/boardApp/reply/modify" var="replyModifyLink" />

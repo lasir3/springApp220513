@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.choong.spr.domain.BoardDto;
 import com.choong.spr.domain.PageInfoDto;
@@ -37,12 +38,11 @@ public class BoardController {
 //		
 //		System.out.println(list.size());
 //	}
-	
+	// 페이지당 표시할 보드의 갯수
+	int rowPerPage = 10;
+
 	@GetMapping("board/list")
 	public String listBoard(@RequestParam(name = "page", defaultValue = "1") int page, Model model) {
-		// 페이지당 표시할 보드의 갯수
-		int rowPerPage = 10;
-		
 		List<BoardDto> list = service.listBoard(page, rowPerPage);
 		int totalRecords = service.countPage();
 		int end = (totalRecords - 1) / rowPerPage + 1;
@@ -60,12 +60,10 @@ public class BoardController {
 	// Board 검색
 	@GetMapping("board/search")
 	public String searchBoard(@RequestParam("q") String q, @RequestParam(name = "page", defaultValue = "1") int page, Model model) {
-		int rowPerPage = 10;
-		
 		List<BoardDto> list = service.searchBoard(q, page, rowPerPage);
 		int totalRecords = service.countSearchPage(q);
 		int end = (totalRecords - 1) / rowPerPage + 1;
-		System.out.println(totalRecords);
+		
 		PageInfoDto pageInfo = new PageInfoDto();
 		pageInfo.setCurrent(page);
 		pageInfo.setEnd(end);
@@ -95,14 +93,17 @@ public class BoardController {
 	}
 	
 	@PostMapping("board/modify")
-	public String modifyBoard(BoardDto board) {
+	public String modifyBoard(BoardDto board, RedirectAttributes rttr) {
 		boolean success = service.updateBoard(board);
 		if (success) {
+			rttr.addAttribute("success", true);
 			System.out.println("게시물 수정 성공!!");
+			return "redirect:/boardApp/board/" + board.getId();
 		} else {
+			rttr.addAttribute("success", false);
 			System.out.println("게시물 수정 실패..");
+			return "redirect:/boardApp/board/" + board.getId();
 		}
-		return "redirect:/boardApp/board/" + board.getId();
 	}
 	
 	@PostMapping("board/remove")

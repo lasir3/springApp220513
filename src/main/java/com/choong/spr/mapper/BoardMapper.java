@@ -24,4 +24,6 @@ public interface BoardMapper {
 
 	int selectSearchPageInfo(String search);
 
+	void incrementView(int id);
+
 }
