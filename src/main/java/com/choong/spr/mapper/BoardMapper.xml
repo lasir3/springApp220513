@@ -68,7 +68,7 @@
   	</delete>
   	
   	<insert id="insertBoard" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-	  	INSERT INTO Board (title, body, inserted, views)
-	  	VALUES (#{title}, #{body}, #{inserted}, #{views})
+	  	INSERT INTO Board (title, body, views)
+	  	VALUES (#{title}, #{body}, #{views})
 	</insert>
   </mapper>

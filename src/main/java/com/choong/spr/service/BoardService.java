@@ -59,7 +59,7 @@ public class BoardService {
 	}
 
 	public boolean addBoard(BoardDto board) {
-		board.setInserted(LocalDateTime.now());
+//		board.setInserted(LocalDateTime.now());
 		board.setViews(0);
 		int cnt = mapper.insertBoard(board);
 		return cnt == 1;

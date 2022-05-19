@@ -21,8 +21,8 @@
 	</update>
 	
 	<insert id="insertReply">
-		INSERT INTO Reply (board_id, content, inserted)
-		VALUES (#{boardId}, #{content}, #{inserted})
+		INSERT INTO Reply (board_id, content)
+		VALUES (#{boardId}, #{content})
 	</insert>
 	
 	<delete id="deleteReply">
