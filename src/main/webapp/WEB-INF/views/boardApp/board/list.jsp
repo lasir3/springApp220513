@@ -36,8 +36,8 @@
 				<table class="table table-hover" style="table-layout: fixed">
 					<thead>
 						<tr style="text-align : center;">
-							<th class="col-2"><i class="fa-solid fa-hashtag"></i></th>
-							<th class="col-8">제목</th>
+							<th class="col-1"><i class="fa-solid fa-hashtag"></i></th>
+							<th class="col-3">제목</th>
 							<th class="col-1"><i class="fa-solid fa-comments"></i></th>
 							<th class="col-1"><i class="fa-solid fa-calendar"></i></th>
 							<!-- <th class="col-1">조회수</th> -->

@@ -57,7 +57,8 @@
   	<update id="updateBoard">
   		UPDATE Board
   		Set title = #{title}, 
-  			body = #{body} 
+  			body  = #{body},
+  			views = #{views} 
   		WHERE id = #{id}
   	</update>
   	
