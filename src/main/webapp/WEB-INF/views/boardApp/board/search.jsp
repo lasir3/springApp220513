@@ -18,8 +18,8 @@
 	<div class="container">
 		<div class="row">
 			<div class="col">
+			
 				<h1>검색결과 : ${searchStr }</h1>
-				
 				<c:if test="${not empty param.success }">
 					<c:if test="${param.success }">
 						<div class="alert alert-primary">
@@ -33,35 +33,38 @@
 					</c:if>
 				</c:if>
 				
-				
-				<table class="table">
+				<table class="table table-hover" style="table-layout: fixed">
 					<thead>
-						<tr>
-							<th><i class="fa-solid fa-hashtag"></i></th>
-							<th>제목</th>
-							<th><i class="fa-solid fa-calendar"></i></th>
+						<tr style="text-align : center;">
+							<th class="col-2" ><i class="fa-solid fa-hashtag"></i></th>
+							<th class="col-8" >제목</th>
+							<th class="col-1" ><i class="fa-solid fa-comments"></i></th>
+							<th class="col-1" ><i class="fa-solid fa-calendar"></i></th>
+							<!-- <th class="col-2" >조회수</th> -->
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach items="${searchList }" var="board">
 							<tr>
-								<td>${board.id }</td>
-								<td>
-													
-									<c:url value="/boardApp/board/${board.id }" var="getUrl"></c:url>
-									<a href="${getUrl }">
-										${board.title }
-									</a>
-									
+								<td style="text-align : center;">${board.id }</td>
+								<td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">
+									<span>
+										<c:url value="/boardApp/board/${board.id }" var="getUrl"></c:url>
+										<a href="${getUrl }">
+											${board.title }
+										</a>
+									</span>
+								</td>
+								<td style="text-align : center;">
 									<!-- 댓글 갯수 추가 -->
 									<c:if test="${board.numOfReply > 0}">
 										<span>
-											<i class="fa-solid fa-comments"></i>
 											${board.numOfReply }
 										</span>
 									</c:if>
 								</td>
-								<td>${board.prettyInserted }</td>
+								<td style="text-align : center;">${board.prettyInserted }</td>
+								<%-- <td style="text-align : center;">${board.views }</td> --%>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -69,7 +72,10 @@
 			</div>
 		</div>
 	</div>
-	
+		<!-- pagination 추가 -->
+	<div class="mt-3">
+		<my:PaginationSearch path="search"/>
+	</div>
 </body>
 </html>
 

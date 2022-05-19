@@ -7,23 +7,38 @@
   		SELECT b.id 		id, 		
   			   b.title 		title, 
   			   b.inserted 	inserted,
-  			   COUNT(r.id)  numOfReply
+  			   COUNT(r.id)  numOfReply,
+  			   b.views      views
   			   <!-- 게시물 댓글 갯수 기능 추가 -->
   		FROM Board b LEFT JOIN Reply r ON b.id = r.board_Id 
   		GROUP BY b.id
   		ORDER BY id DESC
+  		LIMIT #{from }, #{rowPerPage }
   	</select>
   	
   	<select id="selectSearchBoard" resultType="com.choong.spr.domain.BoardDto">
 		SELECT b.id 		id, 		
   			   b.title 		title, 
   			   b.inserted 	inserted,
-  			   COUNT(r.id)  numOfReply
+  			   COUNT(r.id)  numOfReply,
+  			   <!-- 조회수 기능 추가 -->
+  			   b.views      views
   			   <!-- 게시물 댓글 갯수 기능 추가 -->
   		FROM Board b LEFT JOIN Reply r ON b.id = r.board_Id 
 		WHERE b.title LIKE #{search}
 		GROUP BY b.id
   		ORDER BY id DESC
+  		LIMIT #{from }, #{rowPerPage }
+  	</select>
+  	
+ 	<select id="selectPageInfo" resultType="int">
+  		SELECT Count(id) FROM Board
+  	</select>
+  	
+  	 <select id="selectSearchPageInfo" resultType="int">
+  		SELECT Count(id)
+  		FROM Board
+  		WHERE title LIKE #{search} 
   	</select>
   	
   	<select id="getBoard" resultType="com.choong.spr.domain.BoardDto">
@@ -31,7 +46,9 @@
   			   b.title 		title,
   			   b.body       body,
   			   b.inserted 	inserted,
-  			   COUNT(r.id)  numOfReply
+  			   COUNT(r.id)  numOfReply,
+  			   <!-- 조회수 기능 추가 -->
+  			   b.views      views
   			   <!-- 본문 댓글 갯수 기능 추가 -->
   		FROM Board b LEFT JOIN Reply r ON b.id = r.board_Id 
   		WHERE b.id = #{id}
@@ -50,7 +67,7 @@
   	</delete>
   	
   	<insert id="insertBoard" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-	  	INSERT INTO Board (title, body, inserted)
-	  	VALUES (#{title}, #{body}, #{inserted})
+	  	INSERT INTO Board (title, body, inserted, views)
+	  	VALUES (#{title}, #{body}, #{inserted}, #{views})
 	</insert>
   </mapper>

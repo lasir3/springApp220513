@@ -19,7 +19,7 @@
 			</ul>
 		</div>
 		<form class="d-flex" action="${searchUrl }" method="get">
-			<input class="form-control me-2" type="search" placeholder="검색" name="q">
+			<input class="form-control me-2" type="search" placeholder="제목 검색" name="q">
 			<button class="btn btn-outline-success col-3" type="submit">검색</button>
 		</form>
 	</div>

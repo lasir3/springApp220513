@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.choong.spr.domain.BoardDto;
+import com.choong.spr.domain.PageInfoDto;
 import com.choong.spr.domain.ReplyDto;
 import com.choong.spr.service.BoardService;
 import com.choong.spr.service.ReplyService;
@@ -29,20 +30,51 @@ public class BoardController {
 	private ReplyService replyService;
 	
 	// Board의 list 세팅
-	@GetMapping("board/list")
-	public void listBaord(Model model) {
-		List<BoardDto> list = service.listBoard();
-		model.addAttribute("boardList", list);
-		
-		System.out.println(list.size());
-	}
+//	@GetMapping("board/list")
+//	public void listBaord(Model model) {
+//		List<BoardDto> list = service.listBoard();
+//		model.addAttribute("boardList", list);
+//		
+//		System.out.println(list.size());
+//	}
 	
+	@GetMapping("board/list")
+	public String listBoard(@RequestParam(name = "page", defaultValue = "1") int page, Model model) {
+		// 페이지당 표시할 보드의 갯수
+		int rowPerPage = 10;
+		
+		List<BoardDto> list = service.listBoard(page, rowPerPage);
+		int totalRecords = service.countPage();
+		int end = (totalRecords - 1) / rowPerPage + 1;
+		
+		PageInfoDto pageInfo = new PageInfoDto();
+		pageInfo.setCurrent(page);
+		pageInfo.setEnd(end);
+		
+		model.addAttribute("boardList", list);
+		model.addAttribute("pageInfo", pageInfo);
+		
+		return "/boardApp/board/list";
+	}
+
 	// Board 검색
 	@GetMapping("board/search")
-	public void searchBoard(@RequestParam("q") String q, Model model) {
-		List<BoardDto> list = service.searchBoard(q);
+	public String searchBoard(@RequestParam("q") String q, @RequestParam(name = "page", defaultValue = "1") int page, Model model) {
+		int rowPerPage = 10;
+		
+		List<BoardDto> list = service.searchBoard(q, page, rowPerPage);
+		int totalRecords = service.countSearchPage(q);
+		int end = (totalRecords - 1) / rowPerPage + 1;
+		System.out.println(totalRecords);
+		PageInfoDto pageInfo = new PageInfoDto();
+		pageInfo.setCurrent(page);
+		pageInfo.setEnd(end);
+		
 		model.addAttribute("searchList", list);
 		model.addAttribute("searchStr", q);
+		model.addAttribute("pageInfo", pageInfo);
+		
+		return "/boardApp/board/search";
 	}
 	
 	// Board list의 title 클릭시 해당 id에 대한 board 정보를 get.jsp로 포워드
@@ -51,6 +83,7 @@ public class BoardController {
 	public String getBoard(@PathVariable("id") int id, Model model) {
 		// Service를 시켜 id에 해당하는 게시물 get
 		BoardDto dto = service.getBoard(id);
+		System.out.println(dto.getViews());
 		
 		// 댓글 리스트 get
 		List<ReplyDto> replyDto = replyService.getReplyListByBoardId(id);

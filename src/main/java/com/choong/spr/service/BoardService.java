@@ -20,13 +20,26 @@ public class BoardService {
 	@Autowired
 	private ReplyMapper replyMapper;
 
-	public List<BoardDto> listBoard() {
-		return mapper.selectBoard();
+	public List<BoardDto> listBoard(int page, int rowPerPage) {
+		int from = (page-1) * rowPerPage;
+		return mapper.selectBoard(from, rowPerPage);
 	}
 	
-	public List<BoardDto> searchBoard(String str) {
+	public List<BoardDto> searchBoard(String str, int page, int rowPerPage) {
 		String search = "%" + str + "%";
-		return mapper.selectSearchBoard(search);
+		int from = (page-1) * rowPerPage;
+		return mapper.selectSearchBoard(search, from, rowPerPage);
+	}
+	
+	public int countPage() {
+		int countNum = mapper.selectPageInfo();
+		return countNum;
+	}
+	
+	public int countSearchPage(String str) {
+		String search = "%" + str + "%";
+		int countNum = mapper.selectSearchPageInfo(search);
+		return countNum;
 	}
 
 	public BoardDto getBoard(int id) {
@@ -40,19 +53,15 @@ public class BoardService {
 
 	@Transactional // 한번에 처리해야되는 항목 (Transaction)
 	public boolean removeBoard(int id) {
-		
 		replyMapper.deleteReplyByBoard(id);
-		
 		int cnt = mapper.deleteBoard(id);
 		return cnt == 1;
 	}
 
 	public boolean addBoard(BoardDto board) {
 		board.setInserted(LocalDateTime.now());
-		
+		board.setViews(0);
 		int cnt = mapper.insertBoard(board);
-		
 		return cnt == 1;
 	}
-
 }

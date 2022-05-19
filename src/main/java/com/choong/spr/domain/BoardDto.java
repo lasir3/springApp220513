@@ -11,7 +11,18 @@ public class BoardDto {
 	private String title;
 	private String body;
 	private LocalDateTime inserted;
-	
+	private int views;
+//	
+//	public String getTitle() {
+//		return title;
+//	}
+//
+//	public void setTitle(String title) {
+//		if(title.length() > 10) {
+//		}
+//		this.title = title;
+//	}
+
 	// 댓글의 갯수
 	private int numOfReply;
 	
